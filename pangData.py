@@ -1,3 +1,5 @@
+from calendar import c
+from winreg import REG_NOTIFY_CHANGE_SECURITY
 from selenium import webdriver
 from bs4 import BeautifulSoup
 # from calendar import month
@@ -23,16 +25,16 @@ streamHadler = logging.StreamHandler();
 log.addHandler(fileHandler);
 log.addHandler(streamHadler);
 
-conn = pymysql.connect(host="3.34.42.203", user="admin", passwd="123qwe", db="pangDataSTORAGE", port=53916, use_unicode=True, charset='utf8');
-cursor = conn.cursor();
+# conn = pymysql.connect(host="3.34.42.203", user="admin", passwd="123qwe", db="pangDataSTORAGE", port=53916, use_unicode=True, charset='utf8');
+# cursor = conn.cursor();
 
 # pangData 개수 카운트
-selectsql = "SELECT * FROM pangData";
-select = cursor.execute(selectsql);
+# selectsql = "SELECT * FROM pangData";
+# select = cursor.execute(selectsql);
 
-insertSql = "INSERT INTO pangData (equipName, equipDate) VALUES (%s,%s)";
-updateSql = "UPDATE pangData SET equipDate=%s WHERE equipName=%s";
-deleteSql = "DELETE FROM pangData WHERE equipName=%s";
+# insertSql = "INSERT INTO pangData (equipName, equipDate) VALUES (%s,%s)";
+# updateSql = "UPDATE pangData SET equipDate=%s WHERE equipName=%s";
+# deleteSql = "DELETE FROM pangData WHERE equipName=%s";
 
 def driver1(driver):
     driver.get('http://10.12.1.27/#/dashboard/0oKI');
@@ -63,6 +65,9 @@ def connect():
     soup2 = BeautifulSoup(driver2(driver), 'html.parser');
 
     return soup, soup2;
+def dbSqlExcute():
+    log.info("ss");
+
 
 #텍스트 값에 변수 등록 필요
 listBox = [];
@@ -99,59 +104,63 @@ def reSplit(value):
     RiChange = [];
     result = [];
     # 설비장비 | 일자 GET
+    try:
+        for i in value:
+            i = i.strip();
 
-    for i in value:
-        i = i.strip();
+            print("iiiiiii : ", len(i));
 
-        Ri = i.split("     ")[0]; # 설비명
-        Li = i.split("     ")[1]; # 날짜확인
+            Ri = i.split("     ")[0]; # 설비명
+            Li = i.split("     ")[1]; # 날짜확인
 
-        if "LVAD" in Ri:
-            RiChange = replFromat(Ri,"VA","-VA");
-            Ri = RiChange;
-        elif "JVAD" in Ri:
-            RiChange = replFromat(Ri,"VA","-VA");
-            Ri = RiChange;
-        elif "O" in Ri:
-            RiChange = replFromat(Ri,"VA","-VA");
-            Ri = RiChange;
-        elif "LATH" in Ri:
-            RiChange = replFromat(Ri,"LATH","L-Lathe");
-            Ri = RiChange;
-        elif "LFUR" in Ri:
-            RiChange = replFromat(Ri,"LFUR","L-Furnace");
-            Ri = RiChange;
-        elif "VFUR" in Ri:
-            RiChange = replFromat(Ri,"VFUR","V-Furnace");
-            Ri = RiChange;
-        elif "RFUR" in Ri:
-            RiChange = replFromat(Ri,"RFUR","R-Furnace");
-            Ri = RiChange;
-        elif "Tapering" in Ri:
-            RiChange = replFromat(Ri, "Tapering", "Tapering1");
-            Ri = RiChange;
-        elif "Sintering" in Ri:
-            RiChange = replFromat(Ri, "Sintering", "Sintering1");
-            Ri = RiChange;
+            if "LVAD" in Ri:
+                RiChange = replFromat(Ri,"VA","-VA");
+                Ri = RiChange;
+            elif "JVAD" in Ri:
+                RiChange = replFromat(Ri,"VA","-VA");
+                Ri = RiChange;
+            elif "O" in Ri:
+                RiChange = replFromat(Ri,"VA","-VA");
+                Ri = RiChange;
+            elif "LATH" in Ri:
+                RiChange = replFromat(Ri,"LATH","L-Lathe");
+                Ri = RiChange;
+            elif "LFUR" in Ri:
+                RiChange = replFromat(Ri,"LFUR","L-Furnace");
+                Ri = RiChange;
+            elif "VFUR" in Ri:
+                RiChange = replFromat(Ri,"VFUR","V-Furnace");
+                Ri = RiChange;
+            elif "RFUR" in Ri:
+                RiChange = replFromat(Ri,"RFUR","R-Furnace");
+                Ri = RiChange;
+            elif "Tapering" in Ri:
+                RiChange = replFromat(Ri, "Tapering", "Tapering1");
+                Ri = RiChange;
+            elif "Sintering" in Ri:
+                RiChange = replFromat(Ri, "Sintering", "Sintering1");
+                Ri = RiChange;
 
-        if "VLATH" in Ri:
-            RiChange = replFromat(Ri,"VLATH","V-Lathe");
-            Ri = RiChange;
-        elif "LDRAW" in Ri:
-            RiChange = replFromat(Ri, "LDRAW","L-Drawing-");
-            Ri = RiChange;
-        elif "TDRAW" in Ri:
-            RiChange = replFromat(Ri, "TDRAW","T-Drawing-");
-            Ri = RiChange;
-        elif "NDRAW" in Ri:
-            RiChange = replFromat(Ri, "NDRAW","N-Drawing-");
-            Ri = RiChange;
-        elif "REW" in Ri:
-            RiChange = replFromat(Ri, "REW","Rewinding");
-            Ri = RiChange;
+            if "VLATH" in Ri:
+                RiChange = replFromat(Ri,"VLATH","V-Lathe");
+                Ri = RiChange;
+            elif "LDRAW" in Ri:
+                RiChange = replFromat(Ri, "LDRAW","L-Drawing-");
+                Ri = RiChange;
+            elif "TDRAW" in Ri:
+                RiChange = replFromat(Ri, "TDRAW","T-Drawing-");
+                Ri = RiChange;
+            elif "NDRAW" in Ri:
+                RiChange = replFromat(Ri, "NDRAW","N-Drawing-");
+                Ri = RiChange;
+            elif "REW" in Ri:
+                RiChange = replFromat(Ri, "REW","Rewinding");
+                Ri = RiChange;
 
-        equipTime.append(Li);
-        equipName.append(Ri);
+            equipTime.append(Li);
+            equipName.append(Ri);
+    except IndexError as iOn:
+        print(iOn);
 
     for i in zip(equipName, equipTime):
         result.append(i);
@@ -182,94 +191,94 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
                             
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
                             
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         elif "시간 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
                             
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val);
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val);
+                            # conn.commit();
                         elif "분 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
 
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         elif "하루 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
 
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         elif "2일 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
 
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         elif "3일 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
 
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         elif "4일 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
 
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         elif "5일 전" in data[j][1]:
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            delVal = str(eqipNameExcel);
-                            cursor.execute(deleteSql,delVal);
+                            # delVal = str(eqipNameExcel);
+                            # cursor.execute(deleteSql,delVal);
 
-                            val = (str(eqipNameExcel),str(data[j][1]));
-                            cursor.execute(insertSql,val)
-                            conn.commit();
+                            # val = (str(eqipNameExcel),str(data[j][1]));
+                            # cursor.execute(insertSql,val)
+                            # conn.commit();
                         else:
                             if eqipNameStatus:
                                 print('값이 있음 : '+eqipNameStatus);
                                 load_ws[sliceToday+str(i)].value = "";
-                                delVal = str(eqipNameExcel);
-                                cursor.execute(deleteSql,delVal);
+                                # delVal = str(eqipNameExcel);
+                                # cursor.execute(deleteSql,delVal);
 
-                                val = (str(eqipNameExcel),str(data[j][1]));
-                                cursor.execute(insertSql,val)
-                                conn.commit();
+                                # val = (str(eqipNameExcel),str(data[j][1]));
+                                # cursor.execute(insertSql,val)
+                                # conn.commit();
                             else:
                                 load_ws[sliceToday+str(i)].value = data[j][1];
                                 log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                                delVal = str(eqipNameExcel);
-                                cursor.execute(deleteSql,delVal);
+                                # delVal = str(eqipNameExcel);
+                                # cursor.execute(deleteSql,delVal);
 
-                                val = (str(eqipNameExcel),str(data[j][1]));
-                                cursor.execute(insertSql,val)
-                                conn.commit();
+                                # val = (str(eqipNameExcel),str(data[j][1]));
+                                # cursor.execute(insertSql,val)
+                                # conn.commit();
 
 def yesterDayCell(yesterday,load_ws,data,wordBox,weekDatetime):
     if weekDatetime == '6':
