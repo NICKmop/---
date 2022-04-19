@@ -108,7 +108,6 @@ def reSplit(value):
         for i in value:
             i = i.strip();
 
-            print("iiiiiii : ", len(i));
 
             Ri = i.split("     ")[0]; # 설비명
             Li = i.split("     ")[1]; # 날짜확인
