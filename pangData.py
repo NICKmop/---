@@ -9,10 +9,9 @@ from datetime import datetime, timedelta
 from tkinter import messagebox
 import openpyxl ,re ,logging, logging.handlers, pymysql
 
-# TNS 관련 오류 떠있음.
-
 log_today = datetime.now();
 log_today = str(log_today).split(" ")[0];
+
 # path = "excel/2022년_TFO 장비온라인모니터링.xlsx";
 path = "Z:/# ITHELPDESK/3. EAP 모니터링/2022년_TFO 장비온라인모니터링.xlsx";
 
@@ -28,6 +27,7 @@ log.addHandler(streamHadler);
 # conn = pymysql.connect(host="3.34.42.203", user="admin", passwd="123qwe", db="pangDataSTORAGE", port=53916, use_unicode=True, charset='utf8');
 # cursor = conn.cursor();
 
+<<<<<<< HEAD
 # pangData 개수 카운트
 # selectsql = "SELECT * FROM pangData";
 # select = cursor.execute(selectsql);
@@ -35,6 +35,26 @@ log.addHandler(streamHadler);
 # insertSql = "INSERT INTO pangData (equipName, equipDate) VALUES (%s,%s)";
 # updateSql = "UPDATE pangData SET equipDate=%s WHERE equipName=%s";
 # deleteSql = "DELETE FROM pangData WHERE equipName=%s";
+=======
+def flagSql(flag):
+    if flag == 'insert':
+        print("flag : ", flag);
+        insertSql = "INSERT INTO pangData (equipName, equipDate) VALUES (%s,%s)";
+    elif flag == 'update' :
+        print("flag : ", flag);
+        updateSql = "UPDATE pangData SET equipDate=%s WHERE equipName=%s";
+    elif flag == 'delete':
+        print("flag : ", flag);
+        deleteSql = "DELETE FROM pangData WHERE equipName=%s";
+
+def excuteSql(data, eqipNameExcel, j):
+    delVal = str(eqipNameExcel);
+    cursor.execute(flagSql('delete'),delVal);
+
+    val = (str(eqipNameExcel),str(data[j][1]));
+    cursor.execute(flagSql('insert'),val)
+    conn.commit();
+>>>>>>> 7fbf2954b27b277de075f604afc37b696d73b0f4
 
 def driver1(driver):
     driver.get('http://10.12.1.27/#/dashboard/0oKI');
@@ -189,6 +209,7 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                         if data[j][1] == "몇초 전":
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+<<<<<<< HEAD
                             
                             # delVal = str(eqipNameExcel);
                             # cursor.execute(deleteSql,delVal);
@@ -259,10 +280,42 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                             # val = (str(eqipNameExcel),str(data[j][1]));
                             # cursor.execute(insertSql,val)
                             # conn.commit();
+=======
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "시간 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "분 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "하루 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "2일 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "3일 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "4일 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+                        elif "5일 전" in data[j][1]:
+                            load_ws[sliceToday+str(i)].value = "";
+                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                            excuteSql(data, eqipNameExcel, j);
+>>>>>>> 7fbf2954b27b277de075f604afc37b696d73b0f4
                         else:
                             if eqipNameStatus:
                                 print('값이 있음 : '+eqipNameStatus);
                                 load_ws[sliceToday+str(i)].value = "";
+<<<<<<< HEAD
                                 # delVal = str(eqipNameExcel);
                                 # cursor.execute(deleteSql,delVal);
 
@@ -278,6 +331,13 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                                 # val = (str(eqipNameExcel),str(data[j][1]));
                                 # cursor.execute(insertSql,val)
                                 # conn.commit();
+=======
+                                excuteSql(data, eqipNameExcel, j);
+                            else:
+                                load_ws[sliceToday+str(i)].value = data[j][1];
+                                log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
+                                excuteSql(data, eqipNameExcel, j);
+>>>>>>> 7fbf2954b27b277de075f604afc37b696d73b0f4
 
 def yesterDayCell(yesterday,load_ws,data,wordBox,weekDatetime):
     if weekDatetime == '6':
@@ -295,7 +355,7 @@ def yesterDayCell(yesterday,load_ws,data,wordBox,weekDatetime):
            
             sliceToday = wordBox[0];
             for i in range(7, len(data) + 20):
-                # eqipNameExcel = load_ws['E'+str(i)].value;
+                # 함수화 가능 할듯.
                 yesDt = load_ws[sliceYesterday+str(i)].value
                 if load_ws[sliceYesterday+str(i)].value == "제외":
                     #셀 번호 확인
@@ -310,7 +370,6 @@ def yesterDayCell(yesterday,load_ws,data,wordBox,weekDatetime):
 
 def excelReadWrite(path, value):
     data = reSplit(value);
-    # 엑셀 공백값 채워넣기위한 소스
     for i in zip("0", "0"):
         data.insert(0,i);
         data.insert(1,i);
@@ -320,7 +379,6 @@ def excelReadWrite(path, value):
         data.insert(5,i);
         data.insert(6,i);
         data.insert(7,i);
-        # data.insert(5,i);
     month = datetime.now().month;
     # 현재 날짜 데이터 관련
     Today = datetime.now();
@@ -333,18 +391,13 @@ def excelReadWrite(path, value):
     sheetName = str(month)+'월_일일점검';
     sheetAddName = '통계';
 
-    # print("Today : ", Today);
-    # print("yesterday : ", yesterday);
-
     datetime_date = datetime.strptime(Today, '%Y.%m.%d');
     # 0:월 1:화 2:수 3:목 4:금 5:토 6:일
     weekDatetime = datetime_date.weekday();
 
     if weekDatetime == 5:
-        print("토요일");
         exit();
     elif weekDatetime == 6:
-        print("일요일");
         exit();
 
     load_monitoring = openpyxl.load_workbook(path);
@@ -363,7 +416,6 @@ def excelReadWrite(path, value):
             wordBox.append(sliceToday);
 
     todayCell(Today,load_ws,data,load_ws_Add_Data,yesterday);
-
     yesterDayCell(yesterday,load_ws,data,wordBox,weekDatetime);
 
     load_monitoring.save(path);
