@@ -27,7 +27,6 @@ log.addHandler(streamHadler);
 # conn = pymysql.connect(host="3.34.42.203", user="admin", passwd="123qwe", db="pangDataSTORAGE", port=53916, use_unicode=True, charset='utf8');
 # cursor = conn.cursor();
 
-<<<<<<< HEAD
 # pangData 개수 카운트
 # selectsql = "SELECT * FROM pangData";
 # select = cursor.execute(selectsql);
@@ -35,26 +34,6 @@ log.addHandler(streamHadler);
 # insertSql = "INSERT INTO pangData (equipName, equipDate) VALUES (%s,%s)";
 # updateSql = "UPDATE pangData SET equipDate=%s WHERE equipName=%s";
 # deleteSql = "DELETE FROM pangData WHERE equipName=%s";
-=======
-def flagSql(flag):
-    if flag == 'insert':
-        print("flag : ", flag);
-        insertSql = "INSERT INTO pangData (equipName, equipDate) VALUES (%s,%s)";
-    elif flag == 'update' :
-        print("flag : ", flag);
-        updateSql = "UPDATE pangData SET equipDate=%s WHERE equipName=%s";
-    elif flag == 'delete':
-        print("flag : ", flag);
-        deleteSql = "DELETE FROM pangData WHERE equipName=%s";
-
-def excuteSql(data, eqipNameExcel, j):
-    delVal = str(eqipNameExcel);
-    cursor.execute(flagSql('delete'),delVal);
-
-    val = (str(eqipNameExcel),str(data[j][1]));
-    cursor.execute(flagSql('insert'),val)
-    conn.commit();
->>>>>>> 7fbf2954b27b277de075f604afc37b696d73b0f4
 
 def driver1(driver):
     driver.get('http://10.12.1.27/#/dashboard/0oKI');
@@ -209,7 +188,6 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                         if data[j][1] == "몇초 전":
                             load_ws[sliceToday+str(i)].value = "";
                             log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-<<<<<<< HEAD
                             
                             # delVal = str(eqipNameExcel);
                             # cursor.execute(deleteSql,delVal);
@@ -280,42 +258,10 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                             # val = (str(eqipNameExcel),str(data[j][1]));
                             # cursor.execute(insertSql,val)
                             # conn.commit();
-=======
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "시간 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "분 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "하루 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "2일 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "3일 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "4일 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
-                        elif "5일 전" in data[j][1]:
-                            load_ws[sliceToday+str(i)].value = "";
-                            log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                            excuteSql(data, eqipNameExcel, j);
->>>>>>> 7fbf2954b27b277de075f604afc37b696d73b0f4
                         else:
                             if eqipNameStatus:
                                 print('값이 있음 : '+eqipNameStatus);
                                 load_ws[sliceToday+str(i)].value = "";
-<<<<<<< HEAD
                                 # delVal = str(eqipNameExcel);
                                 # cursor.execute(deleteSql,delVal);
 
@@ -331,13 +277,6 @@ def todayCell(Today, load_ws,data,load_ws_Add_Data,yesterday):
                                 # val = (str(eqipNameExcel),str(data[j][1]));
                                 # cursor.execute(insertSql,val)
                                 # conn.commit();
-=======
-                                excuteSql(data, eqipNameExcel, j);
-                            else:
-                                load_ws[sliceToday+str(i)].value = data[j][1];
-                                log.info('{} : {}'.format(str(eqipNameExcel),str(data[j][1])));
-                                excuteSql(data, eqipNameExcel, j);
->>>>>>> 7fbf2954b27b277de075f604afc37b696d73b0f4
 
 def yesterDayCell(yesterday,load_ws,data,wordBox,weekDatetime):
     if weekDatetime == '6':
