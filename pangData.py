@@ -10,10 +10,10 @@ log_today = str(log_today).split(" ")[0];
 # path = "excel/2022년_TFO 장비온라인모니터링.xlsx";
 path = "Z:/# ITHELPDESK/3. EAP 모니터링/2022년_TFO 장비온라인모니터링.xlsx";
 
-log = logging.getLogger("C:/Users/user/OneDrive - 대한광통신/바탕 화면/크롤링/dist/pangData_"+str(log_today)+".log");
+log = logging.getLogger("Z:/# Util/ExcelPang/pangData_"+str(log_today)+".log");
 log.setLevel(logging.DEBUG);
 
-fileHandler = logging.FileHandler("C:/Users/user/OneDrive - 대한광통신/바탕 화면/크롤링/dist/pangData_"+str(log_today)+".log");
+fileHandler = logging.FileHandler("Z:/# Util/ExcelPang/pangData_"+str(log_today)+".log");
 streamHadler = logging.StreamHandler();
 
 log.addHandler(fileHandler);
@@ -30,7 +30,7 @@ def driver2(driver):
     return html;
     
 def connect():
-    driver = webdriver.Chrome('C:/Users/user/OneDrive - 대한광통신/바탕 화면/크롤링/chromeDriver/chromedriver.exe');
+    driver = webdriver.Chrome('Z:/# Util/ExcelPang/chromeDriver/chromedriver.exe');
     driver.implicitly_wait(15);
     driver.get('http://10.12.1.27/pa/login');
     #계정정보 GET
